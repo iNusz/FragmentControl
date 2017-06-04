@@ -24,14 +24,15 @@ public class MainActivity extends AppCompatActivity {
         // 나를 던져줄것이다
         list.setActivity(this);
         detail = new DetailFragment();
+        detail.setActivity(this);
     }
 
     public void addList(){
-        //Transaction 꺼내기
+        // 1. 프래그먼트 트랜잭션 시작하기
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        //contain에다가 지금만든 transaction을 넣겠다고 알려줌
+        // 2. contain에다가 지금만든 transaction을 넣겠다고 알려줌 ( 화면에 프래그먼트 넣기 )
         transaction.add(R.id.contain, list);
-        // transaction을 커밋해줌
+        // 3. transaction을 커밋해줌 (트랜잭션 완료)
         transaction.commit();
     }
 
@@ -40,8 +41,14 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         //contain에다가 지금만든 transaction을 넣겠다고 알려줌
         transaction.add(R.id.contain, detail);
+        // 트랜잭션 처리 전체를 stack에 담아놨다가 , 안드로이드의 back 버튼으로 뒤로가기를 할 수 있다.
+        transaction.addToBackStack(null);
         // transaction을 커밋해줌
         transaction.commit();
+    }
+
+    public void backToList(){
+        super.onBackPressed();
     }
 
 }
